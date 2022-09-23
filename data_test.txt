@@ -1,0 +1,316 @@
+****************
+*    Users     *
+**************** 
+
+a- Create user  - Validator info : name , email , password. OK
+http://localhost:4000/api/v1/users/signup
+
+{
+    "username" : "User 1",
+    "email" : "user_1@gmail.com",
+    "password" : "user_1_1234",
+     "role" : "normal"
+}
+
+
+{
+    "username" : "User Admin",
+    "email" : "user_admin@gmail.com",
+    "password" : "user_admin",
+     "role" : "admin"
+}
+
+b- Login user "loginUser" : mail and password. OK
+http://localhost:4000/api/v1/users/login
+{
+    "email" : "user_1@gmail.com",
+    "password" : "user_1_1234"
+}
+
+
+Return:
+{
+    "status": "success",
+    "data": {
+        "user": {
+            "id": 1,
+            "name": "User 1",
+            "email": "user_1@gmail.com",
+            "status": "active",
+            "role": "normal",
+            "createdAt": "2022-09-19T23:12:50.731Z",
+            "updatedAt": "2022-09-19T23:12:50.731Z"
+        },
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjYzNjI5NTYwLCJleHAiOjE2NjYyMjE1NjB9.-35MtcIXuqzw7BG5HO7FloCRwEVLuEqS-S6poWP4sYI"
+    }
+}
+
+
+c- Update "updateUser" :  name and email . User logined . OK
+http://localhost:4000/api/v1/users/1
+{
+    "name" : "User 100",
+    "password" : "user_100_1234"
+}
+Return :
+{
+    "status": "success",
+    "data": {
+        "user": {
+            "id": 1,
+            "name": "User 100",
+            "email": "user_1@gmail.com",
+            "status": "active",
+            "role": "normal",
+            "createdAt": "2022-09-19T23:12:50.731Z",
+            "updatedAt": "2022-09-19T23:29:24.636Z",
+            "password": "user_100_1234"
+        }
+    }
+}
+
+d- Disabled user "deleteUser" .  User logined . OK
+http://localhost:4000/api/v1/users/133
+
+
+e- Orders of user "getAllUserOrders" : user session . OK
+http://localhost:4000/api/v1/users/orders
+Return:
+{
+    "status": "success",
+    "data": {
+        "orders": [
+            {
+                "id": 1,
+                "mealId": 1,
+                "userId": 4,
+                "quantity": 1,
+                "totalPrice": 3,
+                "status": "cancelled",
+                "createdAt": "2022-09-21T18:11:03.539Z",
+                "updatedAt": "2022-09-21T18:29:37.817Z"
+            }
+        ]
+    }
+}
+
+
+e- Orders of user "getUserOrder" : user session , order by id. OK
+http://localhost:4000/api/v1/users/orders/20
+Return:
+{
+    "status": "success",
+    "data": {
+        "orders": {
+            "id": 1,
+            "mealId": 1,
+            "userId": 4,
+            "quantity": 1,
+            "totalPrice": 3,
+            "status": "cancelled",
+            "createdAt": "2022-09-21T18:11:03.539Z",
+            "updatedAt": "2022-09-21T18:29:37.817Z"
+        }
+    }
+}
+
+
+
+******************
+*  Restaurants   *
+****************** 
+
+a- Create restaurant "createRestaurant" : 
+   Validator, info  name , address , rating . POST. OK
+http://localhost:4000/api/v1/restaurants
+{
+    "name" : "Restaurant 1",
+    "address" : "Street 1 - Cordoba ",
+    "rating" : 1
+}
+Return
+"status": "success",
+    "data": {
+        "newRestaurant": {
+            "status": "active",
+            "id": 1,
+            "name": "Restaurant 1",
+            "address": "Street 1 - Cordoba ",
+            "rating": 1,
+            "updatedAt": "2022-09-20T18:43:24.307Z",
+            "createdAt": "2022-09-20T18:43:24.307Z"
+        }
+    }
+}
+
+b- GetAllRestaurant actives . GET  .  OK
+http://localhost:4000/api/v1/restaurants
+Return
+{
+    "status": "success",
+    "data": {
+        "restaurants": [
+            {
+                "id": 1,
+                "name": "Restaurant 1",
+                "address": "Street 1 - Cordoba ",
+                "rating": 1,
+                "status": "active",
+                "createdAt": "2022-09-20T18:43:24.307Z",
+                "updatedAt": "2022-09-20T18:43:24.307Z"
+            }
+        ]
+    }
+}
+
+
+c- getRestaurant for id .  GET  OK
+http://localhost:4000/api/v1/restaurants/1
+Return
+ OK
+
+
+d- Update "updateRestaurant":  name and Address . Only Admin . PATCH . OK
+http://localhost:4000/api/v1/restaurants/1
+{
+    "name" : "Restaurant 100",
+    "address" : "Street 100 - Cordoba ",
+}
+
+e- Disabled restaurant "deleteRestaurant". Only admin. DELETE  . OK
+http://localhost:4000/api/v1/restaurants/23
+Return
+
+
+f-  Create reviews : restaurantId , comment and rating . User logged. POST.  OK
+http://localhost:4000/api/v1/restaurants/reviews/1
+{
+    "comment" : "Review comment 1",
+    "rating" : 2
+}
+
+g- Update Review "updateReview" :  name and Address .  User logged . PATCH . OK
+http://localhost:4000/api/v1/reviews/1
+{
+    "comment" : "Review comment 111",
+    "rating" : 5
+}
+
+h-  Delete reviews "deleteReview" : reviews id - User Logged . DELETE. OK
+http://localhost:4000/api/v1/restaurants/reviews/1
+Return
+OK
+
+
+******************
+*     Meals      *
+****************** 
+
+a- Create meals "createMeal" : id restaurant , userAdmin , name , price  POST . OK 
+http://localhost:4000/api/v1/meals/1
+{
+    "name" : "Burger 1",
+    "price" : 2
+}
+
+b- getAllMeals :  status= active . GET. OK
+http://localhost:4000/api/v1/meals
+Return : OK
+
+
+c- getMeal : id meal. GET
+http://localhost:4000/api/v1/meals/1 . OK
+Return : OK
+
+
+d- updateMeals :  name and price - User Admin. PATCH . OK
+http://localhost:4000/api/v1/meals/124
+{
+    "name" : "Burger 2 with double",
+    "price" : 3
+}
+
+e- Disabled meals "deleteMeal" :  id meal , user admin. DELETE . OK
+http://localhost:4000/api/v1/meals/124
+Return : OK
+
+
+
+
+******************
+*     Orders     *
+****************** 
+
+a- Create Orders "createOrders" : quantity , mealId. POST . OK
+http://localhost:4000/api/v1/orders/1   
+{
+    "quantity" : 1,
+    "mealId" : 1
+}
+Return:
+"status": "success",
+    "data": {
+        "newOrder": {
+            "status": "active",
+            "id": 1,
+            "quantity": 1,
+            "mealId": 1,
+            "userId": 4,
+            "totalPrice": 3,
+            "updatedAt": "2022-09-21T18:11:03.539Z",
+            "createdAt": "2022-09-21T18:11:03.539Z"
+        }
+    }
+}
+
+b- getMeOrders :  user logged. GET  . OK
+http://localhost:4000/api/v1/orders/me
+Return:
+{
+    "status": "success",
+    "data": {
+        "orders": [
+            {
+                "id": 1,
+                "mealId": 1,
+                "userId": 4,
+                "quantity": 1,
+                "totalPrice": 3,
+                "status": "active",
+                "createdAt": "2022-09-21T18:11:03.539Z",
+                "updatedAt": "2022-09-21T18:11:03.539Z",
+                "meal": {
+                    "id": 1,
+                    "name": "Burger 2 with double",
+                    "price": 3,
+                    "restaurantId": 1,
+                    "status": "deleted",
+                    "createdAt": "2022-09-20T22:57:48.599Z",
+                    "updatedAt": "2022-09-20T23:09:30.119Z",
+                    "restaurant": {
+                        "id": 1,
+                        "name": "Restaurant 100",
+                        "address": "Street 100 - Cordoba ",
+                        "rating": 1,
+                        "status": "active",
+                        "createdAt": "2022-09-20T18:43:24.307Z",
+                        "updatedAt": "2022-09-20T23:19:36.378Z"
+                    }
+                }
+            }
+        ]
+    }
+}
+
+
+c- updateOrders : active to Completed. User logged. PATCH. OK
+http://localhost:4000/api/v1/orders/555
+Return
+
+
+d- Disabled Orders "deleteOrders" : active to Canceled. DELETE . OK
+http://localhost:4000/api/v1/orders/21
+Return: OK
+
+
+
